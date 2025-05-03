@@ -1,5 +1,5 @@
 export class RetornoClienteDto {
-    Guid: string;
-    Nome: string;
-    Login: string;
+    constructor(readonly Guid: string,
+        readonly Nome: string,
+        readonly Login: string) { }
 }

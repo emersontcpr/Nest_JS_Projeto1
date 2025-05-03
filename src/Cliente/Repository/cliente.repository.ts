@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { ClienteEntity } from "../entity/Cliente.Entity";
-import { throws } from "assert";
+import { ClienteEntity } from "../entity/cliente.entity";
+
+
+
 
 @Injectable()
 export class ClienteRepository {
@@ -9,18 +11,23 @@ export class ClienteRepository {
     async add(cliente: ClienteEntity) {
         this.clienteArray.push(cliente);
     }
-    async GetAll() {
-        this.clienteArray;
+    async GetAll(): Promise<ClienteEntity[]> {
+        return this.clienteArray;
     }
     async GetForId(id: number) {
-        return this.clienteArray.find(
+        const cliente = this.clienteArray.find(
             (x) => x.id === id
-        )
+        );
+
+        return cliente;
     }
+
     async GetForGuid(guid: string) {
-        return this.clienteArray.find(
+        const cliente = this.clienteArray.find(
             (x) => x.guid === guid
-        )
+        );
+        return cliente;
+
     }
 
     async remove(id: number) {
