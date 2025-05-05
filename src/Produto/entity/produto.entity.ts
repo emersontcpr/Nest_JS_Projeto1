@@ -1,3 +1,5 @@
+import { RetornoProduto } from "../dto/retornoProduto.dto";
+
 export class ProdutoEntity {
     id: number;
     nome: string;

@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { ProdutoEntity } from "../entity/produto.entity";
-import { retry } from "rxjs";
-import { RetornoClienteDto } from "src/Cliente/dto/retornoCliente.dto";
 
 @Injectable()
 export class ProdutoRepository {
@@ -24,10 +22,14 @@ export class ProdutoRepository {
             (x) => x.guid === guid,
         );
     }
-
+    async GetForIdVendedor(id: number) {
+        return this.produtoArray.filter(
+            (x) => x.idVendedo === id,
+        );
+    }
     async remove(id: number) {
         this.produtoArray = this.produtoArray.filter(
-            (x) => x.id === id,
+            (x) => x.id !== id,
         );
     }
 }
