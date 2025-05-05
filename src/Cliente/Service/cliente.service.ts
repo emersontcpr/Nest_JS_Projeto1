@@ -96,4 +96,10 @@ export class ClienteService {
 
     }
 
+    async RemoverCliente(guid: string) {
+        const cliente = await this._clienteRepository.GetForGuid(guid);
+        if (cliente !== undefined)
+            await this._clienteRepository.remove(cliente.id);
+    }
+
 }

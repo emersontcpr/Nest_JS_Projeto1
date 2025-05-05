@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Global, Injectable } from "@nestjs/common";
 import { VendedorEntity } from "../entity/vendedor.entity";
 
 @Injectable()

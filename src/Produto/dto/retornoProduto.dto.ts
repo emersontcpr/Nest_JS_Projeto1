@@ -1,7 +1,5 @@
-export class RetornoProduto{
-    guid:string;
-    Nome:string;
-    valor:number;
-    descricao:string;
-    idVendedor:number;
+export class RetornoProduto {
+    constructor(readonly Guid: string,
+        readonly Nome: string, readonly valor: number,
+        readonly descricao: string, readonly idVendedor: number) { }
 }

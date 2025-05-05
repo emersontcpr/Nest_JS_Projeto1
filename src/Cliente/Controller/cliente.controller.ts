@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ClienteService } from "../Service/cliente.service";
 import { CriarCliente } from "../dto/CriarCLiente.dto";
 
@@ -21,18 +21,26 @@ export class ClienteController {
         };
     }
     @Get()
-    async TesteRotaClientePost() {
+    async ListarTodosClientes() {
         return await this._clienteService.ListarTodosClientes();
     }
 
     @Get('/:guid')
     async ObterClientePorGuid(@Param('guid') guid: string) {
-        const clinteDto = await this._clienteService.ObterClientePorGuid(guid);
-        if (clinteDto === undefined)
+        const clienteDto = await this._clienteService.ObterClientePorGuid(guid);
+        if (clienteDto === undefined)
             return {
                 messagem: 'Cliente não encontrado!'
             };
         else
-            return clinteDto
+            return clienteDto
+    }
+    @Delete("/:guid")
+    async RemoverCliente(@Param('guid') guid: string) {
+        this._clienteService.RemoverCliente(guid);
+        return {
+            messagem: 'Cliente Removido com sucesso!'
+        };
+
     }
 }

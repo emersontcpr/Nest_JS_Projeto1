@@ -22,7 +22,7 @@ export class CriarCliente {
     @IsCpfValido({ message: "O CPF  do cliente é inválido!" })
     cpf: string;
     @IsNotEmpty({ message: "O Login do cliente  é inválido! IsNotEmpty" })
-    @Matches(/^[0-9a-zA-Z\u005F\u0040\u002E]+$/, { message: "O Login do cliente  é inválido! Matches" })
+    @Matches(/^[0-9a-zA-Z\u0020\u005F\u0040\u002E]+$/, { message: "O Login do cliente  é inválido! Matches" })
     @MaxLength(15, { message: "O Login do cliente  é inválido! MaxLength" })
     @LoginUnico({ message: "Login já Cadastrado" })
     login: string
