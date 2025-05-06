@@ -5,6 +5,7 @@ import { VendedorEntity } from "../entity/vendedor.entity";
 import { v4 as uuid } from 'uuid';
 import { RetornoVendedor } from "../dto/RetornoVendedor.dto";
 import { ProdutoService } from "src/Produto/Service/produto.service";
+import { atualizarVendedor } from "../dto/atualizarVendedor.dto";
 
 @Injectable()
 export class VendedorService {
@@ -132,5 +133,21 @@ export class VendedorService {
             };
         }
 
+    }
+
+    async AtaulizarVendedor(guid: string, dtoRecebido: atualizarVendedor) {
+        const entityVendedor = new VendedorEntity();
+        entityVendedor.nome = dtoRecebido.nome;
+        entityVendedor.sobrenome = dtoRecebido.sobrenome;
+        entityVendedor.nomeComercial = dtoRecebido.nomeComercial;
+        entityVendedor.senha = dtoRecebido.senha;
+        await this._vendedorRepositery.update(guid, entityVendedor);
+
+        const vendedor = await this._vendedorRepositery.getForGuid(guid);
+        if (vendedor !== undefined)
+            return new RetornoVendedor(vendedor.id, vendedor.guid, vendedor.nome,
+                vendedor.nomeComercial, vendedor.login);
+        else
+            return undefined;
     }
 }

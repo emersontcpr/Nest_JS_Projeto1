@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ClienteEntity } from "../entity/cliente.entity";
+import { validateHeaderValue } from "http";
 
 
 
@@ -34,5 +35,17 @@ export class ClienteRepository {
         this.clienteArray = this.clienteArray.filter(
             (x) => x.id !== id
         )
+    }
+
+
+    async update(guid: string, dadosParaAtualizar: Partial<ClienteEntity>) {
+        const dadosNaoAtualizaveis = ['id', 'email', 'cpf', 'login', 'guid'];
+        const cliente = this.GetForGuid(guid);
+        Object.entries(dadosParaAtualizar).forEach(([chave, valor]) => {
+            if (dadosNaoAtualizaveis.includes(chave))
+                return;
+            else if (valor !== undefined)
+                cliente[chave] = valor;
+        })
     }
 }

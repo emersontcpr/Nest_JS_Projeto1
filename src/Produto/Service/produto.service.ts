@@ -4,6 +4,7 @@ import { RetornoProduto } from "../dto/retornoProduto.dto";
 import { CriarProduto } from "../dto/CriarProduto.dto";
 import { ProdutoEntity } from "../entity/produto.entity";
 import { v4 as uuid } from 'uuid';
+import { atualizarProduto } from "../dto/atualizarProduto.dto";
 
 
 @Injectable()
@@ -66,6 +67,25 @@ export class ProdutoService {
         const produto = await this._produtoRepositery.GetForGuid(guid);
         if (produto !== undefined)
             await this._produtoRepositery.remove(produto.id);
+    }
+
+
+    async AtaulizarProduto(guid: string, dtoRecebido: atualizarProduto) {
+        const entityProduto = new ProdutoEntity();
+        entityProduto.nome = dtoRecebido.nome;
+        entityProduto.categoria = dtoRecebido.categoria;
+        entityProduto.descricao = dtoRecebido.descricao;
+        entityProduto.quantidade = dtoRecebido.quantidade;
+        entityProduto.valor = dtoRecebido.valor;
+
+        await this._produtoRepositery.update(guid, entityProduto);
+
+        const produto = await this._produtoRepositery.GetForGuid(guid);
+        if (produto !== undefined)
+            return new RetornoProduto(produto.guid, produto.nome,
+                produto.valor, produto.descricao, produto.idVendedo);
+        else
+            return undefined;
     }
 
 }
