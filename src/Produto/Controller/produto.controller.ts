@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ProdutoService } from "../Service/produto.service";
 import { CriarProduto } from "../dto/CriarProduto.dto";
+import { atualizarProduto } from "../dto/atualizarProduto.dto";
 
 @Controller('/Produto')
 export class ProdutoController {
@@ -44,6 +45,22 @@ export class ProdutoController {
             messagem: 'Produto Removido com sucesso!'
         };
 
+    }
+
+    @Put('/:guid')
+    async AtualizarProduto(@Param("guid") guid: string,
+        @Body() dados: atualizarProduto) {
+
+        const ProdutoDto = await this._produtoService.AtaulizarProduto(guid, dados);
+        if (ProdutoDto === undefined)
+            return {
+                messagem: 'Produto não atualizar!'
+            };
+        else
+            return {
+                dados: ProdutoDto,
+                messagem: 'Produto atualizado com sucesso!'
+            };
     }
 }
 

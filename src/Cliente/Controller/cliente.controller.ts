@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ClienteService } from "../Service/cliente.service";
 import { CriarCliente } from "../dto/CriarCLiente.dto";
+import { atualizarCliente } from "../dto/atualizarCliente.dto";
 
 @Controller('Cliente')
 export class ClienteController {
@@ -42,5 +43,20 @@ export class ClienteController {
             messagem: 'Cliente Removido com sucesso!'
         };
 
+    }
+    @Put('/:guid')
+    async AtualizarCliente(@Param("guid") guid: string,
+        @Body() dados: atualizarCliente) {
+
+        const clienteDto = await this._clienteService.AtaulizarCliente(guid, dados);
+        if (clienteDto === undefined)
+            return {
+                messagem: 'Cliente não atualizar!'
+            };
+        else
+            return {
+                dados: clienteDto,
+                messagem: 'Cliente atualizado com sucesso!'
+            };
     }
 }

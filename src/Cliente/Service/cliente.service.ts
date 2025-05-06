@@ -4,6 +4,7 @@ import { CriarCliente } from "../dto/CriarCLiente.dto";
 import { ClienteEntity } from "../entity/cliente.entity";
 import { v4 as uuid } from 'uuid';
 import { RetornoClienteDto } from "../dto/retornoCliente.dto";
+import { atualizarCliente } from "../dto/atualizarCliente.dto";
 
 @Injectable()
 export class ClienteService {
@@ -100,6 +101,21 @@ export class ClienteService {
         const cliente = await this._clienteRepository.GetForGuid(guid);
         if (cliente !== undefined)
             await this._clienteRepository.remove(cliente.id);
+    }
+
+    async AtaulizarCliente(guid: string, dtoRecebido: atualizarCliente) {
+        const entiteCliente = new ClienteEntity();
+        entiteCliente.nome = dtoRecebido.nome;
+        entiteCliente.sobrenome = dtoRecebido.sobrenome;
+        entiteCliente.senha = dtoRecebido.senha;
+        await this._clienteRepository.update(guid, entiteCliente);
+
+        const clienteAtaulizado = await this._clienteRepository.GetForGuid(guid);
+        if (clienteAtaulizado !== undefined)
+            return new RetornoClienteDto(clienteAtaulizado.guid, clienteAtaulizado.nome, clienteAtaulizado.login);
+
+        else
+            return undefined;
     }
 
 }

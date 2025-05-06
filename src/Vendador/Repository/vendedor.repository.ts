@@ -28,4 +28,15 @@ export class VendedorRepository {
             (x) => x.id !== id
         );
     }
+
+     async update(guid: string, dadosParaAtualizar: Partial<VendedorEntity>) {
+            const dadosNaoAtualizaveis = ['id', 'email', 'cnpj', 'login', 'guid'];
+            const vendedor = this.getForGuid(guid);
+            Object.entries(dadosParaAtualizar).forEach(([chave, valor]) => {
+                if (dadosNaoAtualizaveis.includes(chave))
+                    return;
+                else if (valor !== undefined)
+                    vendedor[chave] = valor;
+            })
+        }
 }

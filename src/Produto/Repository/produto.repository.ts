@@ -32,4 +32,15 @@ export class ProdutoRepository {
             (x) => x.id !== id,
         );
     }
+    
+        async update(guid: string, dadosParaAtualizar: Partial<ProdutoEntity>) {
+            const dadosNaoAtualizaveis = ['id',  'idVendedo', 'guid'];
+            const produto = this.GetForGuid(guid);
+            Object.entries(dadosParaAtualizar).forEach(([chave, valor]) => {
+                if (dadosNaoAtualizaveis.includes(chave))
+                    return;
+                else if (valor !== undefined)
+                    produto[chave] = valor;
+            })
+        }
 }
